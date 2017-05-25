@@ -1,0 +1,12 @@
+<script src="<c:url value="/static/scripts/lib/jquery3.1.0.min.js"/>"></script>
+<script src="<c:url value="/static/scripts/lib/bootstrap.min.js"/>"></script>
+
+<script src="<c:url value="/static/scripts/lib/bootstrap-table.min.js"/>"></script>
+<script src="<c:url value="/static/scripts/lib/bootstrap-table-ru-RU.min.js"/>"></script>
+
+<script src="<c:url value="/static/scripts/lib/selectize.min.js"/>"></script>
+
+<script src="<c:url value="/static/scripts/lib/moment.min.js"/>"></script>
+<script src="<c:url value="/static/scripts/lib/moment-locale-ru.js"/>"></script>
+
+<script src="<c:url value="/static/scripts/lib/bootstrap-datetimepicker.min.js"/>"></script>

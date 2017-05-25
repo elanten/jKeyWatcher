@@ -1,0 +1,9 @@
+<link rel="stylesheet" href="<c:url value="/static/styles/lib/bootstrap.min.css"/>"/>
+
+<link rel="stylesheet" href="<c:url value="/static/styles/lib/bootstrap-table.min.css"/>"/>
+
+<link rel="stylesheet" href="<c:url value="/static/styles/lib/selectize.bootstrap3.min.css"/>"/>
+
+<link rel="stylesheet" href="<c:url value="/static/styles/lib/bootstrap-datetimepicker.min.css"/>"/>
+
+<link rel="stylesheet" href="<c:url value="/static/styles/custom.css"/>"/>
