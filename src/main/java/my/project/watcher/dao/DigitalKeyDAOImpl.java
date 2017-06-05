@@ -72,8 +72,8 @@ public class DigitalKeyDAOImpl implements DigitalKeyDAO {
     @Override
     public List<DigitalKey> getAllByContragentId(long contragentId) {
         final String sql = "SELECT DISTINCT d.id, d.name, d.serial, d.description, d.expire FROM digital_key_contacts c " +
-                "LEFT JOIN digital_key d ON c.digital_key = d.id " +
-                "WHERE c.contragent = ? AND NOT d.removed ORDER BY d.expire";
+                "LEFT JOIN digital_key d ON c.digital_key_id = d.id " +
+                "WHERE c.contragent_id = ? AND NOT d.removed ORDER BY d.expire";
         return parameterJdbcTemplate.getJdbcOperations().query(sql, new DigitalKeyMapper(), contragentId);
     }
 
@@ -92,10 +92,9 @@ public class DigitalKeyDAOImpl implements DigitalKeyDAO {
     @Override
     public DigitalKey getById(long id) {
         final String sql = "SELECT * FROM digital_key WHERE id = ?";
-        DigitalKey digitalKey = parameterJdbcTemplate
+        return parameterJdbcTemplate
                 .getJdbcOperations()
                 .queryForObject(sql, new DigitalKeyMapper(), id);
-        return digitalKey;
     }
 
     private class DigitalKeyMapper implements RowMapper<DigitalKey> {

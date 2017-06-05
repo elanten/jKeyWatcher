@@ -38,12 +38,12 @@ public class ContragentDAOImpl implements ContragentDAO {
     }
 
     private void removeContragentDetailsById(long contragentId) {
-        final String SQL = "DELETE FROM contragent_detail WHERE contragent = ?";
+        final String SQL = "DELETE FROM contragent_detail WHERE contragent_id = ?";
         parameterJdbcTemplate.getJdbcOperations().update(SQL, contragentId);
     }
 
     private void insertContragentDetails(final long contragentId, final List<Contragent.ContactDetail> details) {
-        final String SQL = "INSERT INTO contragent_detail (contragent, type, value) VALUES (?,?,?)";
+        final String SQL = "INSERT INTO contragent_detail (contragent_id, type_id, value) VALUES (?,?,?)";
         parameterJdbcTemplate.getJdbcOperations().batchUpdate(SQL, new BatchPreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
@@ -61,7 +61,7 @@ public class ContragentDAOImpl implements ContragentDAO {
 
     @Override
     public void saveDigitalKeyContacts(long digitalKeyId, List<Contragent> contacts, String contactType) {
-        final String sql = "INSERT INTO digital_key_contacts (digital_key, contragent, type) VALUES (?, ?, ?)";
+        final String sql = "INSERT INTO digital_key_contacts (digital_key_id, contragent_id, type) VALUES (?, ?, ?)";
         parameterJdbcTemplate.getJdbcOperations().batchUpdate(sql, new BatchPreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
@@ -79,15 +79,15 @@ public class ContragentDAOImpl implements ContragentDAO {
 
     @Override
     public void removeDigitalKeyContacts(long digitalKeyId) {
-        final String sql = "DELETE FROM digital_key_contacts WHERE digital_key = ?";
+        final String sql = "DELETE FROM digital_key_contacts WHERE digital_key_id = ?";
         parameterJdbcTemplate.getJdbcOperations().update(sql, digitalKeyId);
     }
 
     @Override
     public List<Contragent> getDigitalKeyContacts(long digitalKeyId, String contactType) {
         final String SQL = "SELECT con.id, con.name, con.description FROM digital_key_contacts dkc " +
-                "LEFT JOIN contragent con ON dkc.contragent = con.id " +
-                "WHERE dkc.digital_key = ? AND NOT con.removed AND dkc.type = ?";
+                "LEFT JOIN contragent con ON dkc.contragent_id = con.id " +
+                "WHERE dkc.digital_key_id = ? AND NOT con.removed AND dkc.type = ?";
         return parameterJdbcTemplate.getJdbcOperations()
                 .query(SQL, new ContragentMapper(), digitalKeyId, contactType);
     }
@@ -176,7 +176,7 @@ public class ContragentDAOImpl implements ContragentDAO {
     @Override
     public List<Contragent> getAllByType(String type) {
         final String SQL = "SELECT DISTINCT con.id, con.name, con.description FROM contragent con " +
-                "LEFT JOIN digital_key_contacts dkc ON con.id = dkc.contragent " +
+                "LEFT JOIN digital_key_contacts dkc ON con.id = dkc.contragent_id " +
                 "WHERE NOT con.removed AND dkc.type = ?";
         return parameterJdbcTemplate.getJdbcOperations().query(SQL, new ContragentMapper(), type);
     }
@@ -189,7 +189,7 @@ public class ContragentDAOImpl implements ContragentDAO {
 
     private List<Contragent.ContactDetail> getContragentDetails(long contragentId) {
         final String sql = "SELECT d.id, d.value, t.id AS type_id, t.name AS type_name FROM contragent_detail d " +
-                "LEFT JOIN contragent_detail_type t ON d.type = t.id WHERE d.contragent = ?";
+                "LEFT JOIN contragent_detail_type t ON d.type_id = t.id WHERE d.contragent_id = ?";
         return parameterJdbcTemplate.getJdbcOperations().query(sql, new ContactInfoMapper(), contragentId);
     }
 

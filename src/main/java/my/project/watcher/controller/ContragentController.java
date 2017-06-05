@@ -53,7 +53,6 @@ public class ContragentController {
     public List<Contragent> searchByName(
             @RequestParam String search
     ) {
-        logger.info("search: {}", search);
         return contragentService.getListByName(search);
     }
 
